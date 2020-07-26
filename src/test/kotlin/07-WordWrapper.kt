@@ -1,3 +1,6 @@
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -25,6 +28,19 @@ class WorkWrapperTest {
     fun test0() {
         assertThrows<IllegalArgumentException>() { Wrapper.wrap("", 42) }
     }
+
+    @Test
+    @Ignore
+    fun test1() {
+        val actual: String = Wrapper.wrap("hello, world!", 10)
+        val expected = "hello, world!"
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun test2() {
+        assertThat(Wrapper.wrap("hello, world!", 20)).isEqualTo("hello, world!")
+    }
 }
 
 class Wrapper {
@@ -32,7 +48,11 @@ class Wrapper {
         fun wrap(text: String, column: Int): String {
             if (text.isEmpty()) throw IllegalArgumentException()
             else {
-                return ""
+                if (text.length <= column) {
+                    return text
+                } else {
+                    return ""
+                }
             }
         }
     }
